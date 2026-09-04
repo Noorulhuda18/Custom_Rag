@@ -6,6 +6,7 @@ from src.document_processor import process_uploaded_files
 from src.rag_chain import answer_question
 from src.utils import format_size, file_icon
 
+APP_DISPLAY_NAME = "NexaRAG"
 
 def inject_css():
     st.markdown("""<style>
@@ -38,10 +39,10 @@ def inject_css():
     .stButton>button[kind="primary"] { background:#0c8c86; color:white; border:0; }
     section[data-testid="stSidebar"] .stButton>button { background:#e7f4f2; color:#12384a; border:0; }
     section[data-testid="stSidebar"] .stButton>button:hover { background:#ffffff; color:#08746f; }
-    [data-testid="stFileUploader"] { background:#e8f2f3 !important; border:2px dashed #6baeb0 !important; border-radius:16px; padding:.7rem; color:#14354a !important; }
-    [data-testid="stFileUploaderDropzone"] { background:#e8f2f3 !important; border:0 !important; }
-    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section { color:#31576a !important; }
-    [data-testid="stFileUploader"] button { background:#ffffff !important; color:#0c716f !important; border:1px solid #8bc1c0 !important; box-shadow:none !important; }
+    [data-testid="stFileUploader"] { background:#d5eeec !important; border:2px dashed #4faaa7 !important; border-radius:14px; padding:.45rem !important; color:#14354a !important; }
+    [data-testid="stFileUploaderDropzone"] { background:#d5eeec !important; border:0 !important; min-height:112px !important; }
+    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section { color:#173f53 !important; }
+    [data-testid="stFileUploader"] button { background:#0c716f !important; color:#ffffff !important; border:0 !important; box-shadow:none !important; font-weight:700 !important; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] { background:#18354d; border:1px solid #2b526d; border-radius:12px; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] svg { fill:#b7ccd5; }
     [data-testid="stMetric"] { background:#ffffff; border:1px solid #d3e0e4; border-radius:14px; padding:1rem; box-shadow:0 5px 16px rgba(20,53,68,.05); }
@@ -55,19 +56,45 @@ def inject_css():
 def render_header():
     first, second, third = st.columns([4, 2, 1])
     with first:
-        st.markdown("## 📚 DocuMind AI")
+        st.markdown(f"## 📚 {APP_DISPLAY_NAME}")
     with second:
         st.caption("Workspace")
     with third:
-        if st.button("New Session"):
+        if st.button("New chat"):
             st.session_state.messages = []
             st.rerun()
 
 
 def render_sidebar():
-    st.markdown("### Your Documents")
-    st.caption("Files currently available to AI")
+    st.markdown("### Workspace")
+    st.caption("Your private document intelligence hub")
     st.divider()
+    st.markdown("**MODEL**")
+    settings = st.session_state.settings
+    models = ["gpt-4o-mini", "gpt-4.1-mini", "gpt-4o"]
+    settings["model"] = st.selectbox("AI model", models, index=models.index(settings["model"]), label_visibility="collapsed")
+
+    with st.expander("Retrieval settings", expanded=True):
+        settings["chunk_size"] = st.slider("Chunk size", 500, 2000, settings["chunk_size"], 100)
+        settings["chunk_overlap"] = st.slider("Chunk overlap", 0, 400, settings["chunk_overlap"], 50)
+        settings["top_k"] = st.slider("Retrieved chunks", 2, 10, settings["top_k"])
+        settings["temperature"] = st.slider("Answer temperature", 0.0, 1.0, settings["temperature"], 0.1)
+
+    st.markdown("**SESSION**")
+    session_left, session_right = st.columns(2)
+    with session_left:
+        if st.button("＋ New chat", use_container_width=True):
+            st.session_state.messages = []
+            st.rerun()
+    with session_right:
+        if st.button("Clear chat", use_container_width=True):
+            st.session_state.messages = []
+            st.rerun()
+    if st.button("Change API key", use_container_width=True):
+        st.session_state.api_key = ""
+        st.session_state.authenticated = False
+        st.rerun()
+
     st.markdown("**DOCUMENT LIBRARY**")
 
     document_count = len(st.session_state.documents)
@@ -87,15 +114,6 @@ def render_sidebar():
         '<span>PDF, Word, Excel, PowerPoint, text, web files, data files, and images with OCR.</span></div>',
         unsafe_allow_html=True,
     )
-
-    settings = st.session_state.settings
-    with st.expander("⚙ Settings"):
-        models = ["gpt-4o-mini", "gpt-4.1-mini", "gpt-4o"]
-        settings["model"] = st.selectbox("AI Model", models, index=models.index(settings["model"]))
-        settings["temperature"] = st.slider("Temperature", 0.0, 1.0, settings["temperature"], 0.1)
-        settings["chunk_size"] = st.slider("Chunk size", 500, 2000, settings["chunk_size"], 100)
-        settings["chunk_overlap"] = st.slider("Chunk overlap", 0, 400, settings["chunk_overlap"], 50)
-        settings["top_k"] = st.slider("Retrieved chunks", 2, 10, settings["top_k"])
 
     for document in st.session_state.documents:
         st.markdown(
@@ -144,9 +162,9 @@ def render_empty_state():
                 unsafe_allow_html=True,
             )
 
-st.set_page_config(page_title=APP_NAME, page_icon="📚", layout="wide")
+st.set_page_config(page_title=APP_DISPLAY_NAME, page_icon="📚", layout="wide")
 inject_css()
-st.markdown('<div class="ui-version">DocuMind workspace · refreshed UI</div>', unsafe_allow_html=True)
+st.markdown('<div class="ui-version">NexaRAG · refreshed workspace</div>', unsafe_allow_html=True)
 
 if "api_key" not in st.session_state:
     st.session_state.api_key = ""
@@ -170,7 +188,7 @@ if "settings" not in st.session_state:
 def api_key_screen():
     st.markdown('<div class="onboarding-icon">📚</div>', unsafe_allow_html=True)
     st.markdown('<div class="eyebrow">AI DOCUMENT INTELLIGENCE</div>', unsafe_allow_html=True)
-    st.title("DocuMind AI")
+    st.title(APP_DISPLAY_NAME)
     st.markdown("### Your private AI workspace for understanding documents.")
     st.write("Upload documents, spreadsheets, presentations and images, then ask questions using natural language.")
     key = st.text_input("Enter your OpenAI API Key", type="password", value=st.session_state.api_key)
@@ -197,14 +215,15 @@ os.environ["OPENAI_API_KEY"] = st.session_state.api_key
 render_header()
 
 with st.sidebar:
-    render_sidebar()
-
     uploaded = st.file_uploader(
-        "Drop files here",
+        "UPLOAD DOCUMENTS",
         type=[x.lstrip(".") for x in SUPPORTED_EXTENSIONS],
         accept_multiple_files=True,
         help="PDF, Word, Excel, PowerPoint, text, web/data files and images."
     )
+
+    st.caption("PDF · DOCX · XLSX · PPTX · TXT · Images")
+    render_sidebar()
 
     if uploaded:
         signatures = [(f.name, f.size) for f in uploaded]
@@ -225,7 +244,7 @@ with st.sidebar:
                 except Exception:
                     st.error("Unable to process one or more files. Check that they are not corrupted, password protected, or unsupported.")
 
-    if st.button("Clear Documents", use_container_width=True):
+    if st.button("Clear document library", use_container_width=True):
         st.session_state.documents = []
         st.session_state.vectorstore = None
         st.session_state.upload_signatures = []
