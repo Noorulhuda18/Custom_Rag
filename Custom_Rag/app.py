@@ -41,7 +41,9 @@ def inject_css():
     section[data-testid="stSidebar"] .stButton>button:hover { background:#ffffff; color:#08746f; }
     [data-testid="stFileUploader"] { background:#d5eeec !important; border:2px dashed #4faaa7 !important; border-radius:14px; padding:.45rem !important; color:#14354a !important; }
     [data-testid="stFileUploaderDropzone"] { background:#d5eeec !important; border:0 !important; min-height:112px !important; }
-    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section { color:#173f53 !important; }
+    section[data-testid="stSidebar"] [data-testid="stFileUploader"] * { color:#173f53 !important; }
+    section[data-testid="stSidebar"] [data-testid="stFileUploader"] button { color:#ffffff !important; }
+    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section, [data-testid="stFileUploader"] p { color:#173f53 !important; opacity:1 !important; }
     [data-testid="stFileUploader"] button { background:#0c716f !important; color:#ffffff !important; border:0 !important; box-shadow:none !important; font-weight:700 !important; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] { background:#18354d; border:1px solid #2b526d; border-radius:12px; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] svg { fill:#b7ccd5; }
@@ -49,20 +51,23 @@ def inject_css():
     [data-testid="stMetricLabel"] { color:#587080; }
     [data-testid="stSidebar"] .stCaption, [data-testid="stSidebar"] small { color:#a9c2ce; }
     [data-testid="stChatMessage"] { border-radius:16px; }
+    .brand-lockup { display:flex; align-items:center; gap:.7rem; margin:.2rem 0 1.4rem; }
+    .brand-mark { width:42px; height:42px; border-radius:12px; display:grid; place-items:center; background:#0c8c86; color:#ffffff; font-size:1.35rem; box-shadow:0 7px 16px rgba(12,140,134,.22); }
+    .brand-name { color:#14283d; font-size:1.55rem; font-weight:800; letter-spacing:-.03em; }
+    .workspace-card { background:#f8fbfc; border:1px solid #d3e0e4; border-radius:16px; padding:1.15rem; min-height:138px; box-shadow:0 7px 20px rgba(20,53,68,.06); }
+    .workspace-card .card-icon { color:#0c8c86; font-size:1.5rem; margin-bottom:.65rem; }
+    .workspace-card strong { color:#14283d; display:block; margin-bottom:.35rem; }
+    .workspace-card span { color:#587080; font-size:.88rem; line-height:1.45; }
     .ui-version { position:fixed; right:1rem; bottom:.7rem; z-index:9999; background:#244b7d; color:#fff; padding:.35rem .65rem; border-radius:999px; font-size:.72rem; font-weight:700; box-shadow:0 4px 12px rgba(20,35,60,.2); }
     </style>""", unsafe_allow_html=True)
 
 
 def render_header():
-    first, second, third = st.columns([4, 2, 1])
-    with first:
-        st.markdown(f"## 📚 {APP_DISPLAY_NAME}")
-    with second:
-        st.caption("Workspace")
-    with third:
-        if st.button("New chat"):
-            st.session_state.messages = []
-            st.rerun()
+    st.markdown(
+        f'<div class="brand-lockup"><div class="brand-mark">✦</div>'
+        f'<div class="brand-name">{APP_DISPLAY_NAME}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_sidebar():
@@ -150,15 +155,20 @@ def render_empty_state():
     )
     st.markdown("#### A focused workspace for your files")
     cards = [
-        ("Summarize faster", "Turn long reports into clear takeaways and concise briefs."),
-        ("Find the details", "Ask for names, dates, figures, risks, or decisions across files."),
-        ("Keep context close", "Answers stay grounded in your uploaded documents and sources."),
+        ("✦", "Summarize faster", "Turn long reports into clear takeaways and concise briefs."),
+        ("⌕", "Find the details", "Ask for names, dates, figures, risks, or decisions across files."),
+        ("↔", "Compare documents", "Surface differences, trends, and agreements across files."),
+        ("✓", "Source-backed answers", "See where each answer came from with page and file context."),
+        ("▦", "Organize knowledge", "Keep PDFs, spreadsheets, slides, and images in one workspace."),
+        ("⌁", "Ask naturally", "Use follow-up questions to explore your documents conversationally."),
     ]
     columns = st.columns(3)
-    for column, (title, description) in zip(columns, cards):
+    for index, (icon, title, description) in enumerate(cards):
+        column = columns[index % 3]
         with column:
             st.markdown(
-                f'<div class="empty-card"><strong>{title}</strong><span>{description}</span></div>',
+                f'<div class="workspace-card"><div class="card-icon">{icon}</div>'
+                f'<strong>{title}</strong><span>{description}</span></div>',
                 unsafe_allow_html=True,
             )
 
