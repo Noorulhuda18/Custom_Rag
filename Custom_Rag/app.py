@@ -50,15 +50,20 @@ def inject_css():
     [data-testid="stMetric"] { background:#142b3d; border:1px solid #31566b; border-radius:14px; padding:1rem; box-shadow:0 5px 16px rgba(0,0,0,.2); }
     [data-testid="stMetricLabel"] { color:#b6cbd4; }
     [data-testid="stMetricValue"] { color:#f2f8fa; }
-    [data-baseweb="select"] > div { background:#142f45 !important; border:1px solid #42677c !important; color:#f2f8fa !important; }
-    [data-baseweb="select"] > div > div { color:#f2f8fa !important; }
-    [data-baseweb="select"] *, [data-baseweb="input"] *, [data-baseweb="textarea"] * { color:#f2f8fa !important; -webkit-text-fill-color:#f2f8fa !important; }
-    [role="listbox"] { background:#142f45 !important; border:1px solid #42677c !important; box-shadow:0 10px 24px rgba(0,0,0,.35) !important; }
-    [role="option"] { background:#142f45 !important; color:#f2f8fa !important; }
-    [role="option"] * { color:#f2f8fa !important; -webkit-text-fill-color:#f2f8fa !important; }
-    [role="option"][aria-selected="true"], [role="option"]:hover { background:#0c8c86 !important; color:#ffffff !important; }
-    [role="option"][aria-selected="true"] *, [role="option"]:hover * { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
+    [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-baseweb="textarea"] > div { background:#142f45; border-color:#42677c; color:#f2f8fa; }
+    [data-baseweb="select"] *, [data-baseweb="input"] *, [data-baseweb="textarea"] * { color:#f2f8fa; }
+    [data-baseweb="select"] [role="combobox"] { background:#142f45 !important; color:#f2f8fa !important; }
+    [data-baseweb="select"] [role="combobox"] span { color:#f2f8fa !important; }
+    [data-baseweb="popover"] { background:#142f45 !important; border:1px solid #42677c !important; }
+    [role="listbox"] { background:#142f45 !important; }
+    [role="option"] { background:#142f45 !important; color:#e8f1f5 !important; }
+    [role="option"]:hover, [role="option"][aria-selected="true"] { background:#24536a !important; color:#ffffff !important; }
     [data-testid="stExpander"] p, [data-testid="stExpander"] label { color:#e8f1f5; }
+    section[data-testid="stSidebar"] [data-testid="stExpander"] summary,
+    section[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover,
+    section[data-testid="stSidebar"] [data-testid="stExpander"] summary:focus { background:#102b40 !important; color:#e8f1f5 !important; }
+    section[data-testid="stSidebar"] [data-testid="stExpander"] summary p,
+    section[data-testid="stSidebar"] [data-testid="stExpander"] summary span { color:#e8f1f5 !important; }
     [data-testid="stSlider"] [data-testid="stMarkdownContainer"] p { color:#d3e4e9; }
     [data-testid="stChatInput"] { background:#142f45; border-color:#42677c; }
     [data-testid="stChatInput"] textarea { color:#f2f8fa !important; }
