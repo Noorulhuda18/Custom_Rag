@@ -1,5 +1,6 @@
 # DocuMind AI — Intelligent Document Assistant
-
+#Demo 
+https://customrag-jpbsqvv5s6gakcuxcnngma.streamlit.app/
 A Streamlit + LangChain + OpenAI + FAISS RAG application for asking grounded questions about PDFs, Word files, spreadsheets, presentations, text, web/data files, and images.
 
 ## Features
