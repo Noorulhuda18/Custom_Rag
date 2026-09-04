@@ -61,10 +61,10 @@ def inject_css():
     .brand-lockup { display:flex; align-items:center; gap:.7rem; margin:.2rem 0 1.4rem; }
     .brand-mark { width:42px; height:42px; border-radius:12px; display:grid; place-items:center; background:#0c8c86; color:#ffffff; font-size:1.35rem; box-shadow:0 7px 16px rgba(12,140,134,.22); }
     .brand-name { color:#f2f8fa; font-size:1.55rem; font-weight:800; letter-spacing:-.03em; }
-    .workspace-card { background:#f8fbfc; border:1px solid #d3e0e4; border-radius:16px; padding:1.15rem; min-height:138px; box-shadow:0 7px 20px rgba(20,53,68,.06); }
-    .workspace-card .card-icon { color:#0c8c86; font-size:1.5rem; margin-bottom:.65rem; }
-    .workspace-card strong { color:#14283d; display:block; margin-bottom:.35rem; }
-    .workspace-card span { color:#587080; font-size:.88rem; line-height:1.45; }
+    .workspace-card { background:#dbe9ed; border:1px solid #8eabb6; border-radius:16px; padding:1.15rem; min-height:138px; margin:0 .35rem 1rem; box-shadow:0 8px 20px rgba(0,0,0,.18); }
+    .workspace-card .card-icon { color:#087c79; font-size:1.5rem; margin-bottom:.65rem; }
+    .workspace-card strong { color:#102d42; display:block; margin-bottom:.35rem; }
+    .workspace-card span { color:#38596b; font-size:.88rem; line-height:1.45; }
     .ui-version { position:fixed; right:1rem; bottom:.7rem; z-index:9999; background:#244b7d; color:#fff; padding:.35rem .65rem; border-radius:999px; font-size:.72rem; font-weight:700; box-shadow:0 4px 12px rgba(20,35,60,.2); }
     </style>""", unsafe_allow_html=True)
 
