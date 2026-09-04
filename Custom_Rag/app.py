@@ -9,33 +9,44 @@ from src.utils import format_size, file_icon
 
 def inject_css():
     st.markdown("""<style>
-    .stApp { background:#e8edf4; color:#172033; }
-    [data-testid="stHeader"] { background:transparent; }
-    section[data-testid="stSidebar"] { background:#d7e0eb; border-right:1px solid #bdc9d8; }
-    section[data-testid="stSidebar"] > div { background:#d7e0eb; }
+    .stApp { background:#e9f0f3; color:#14283d; }
+    header[data-testid="stHeader"] { background:#14283d !important; }
+    [data-testid="stToolbar"] { color:#ffffff; }
+    section[data-testid="stSidebar"] { background:#10263b; border-right:1px solid #24435e; }
+    section[data-testid="stSidebar"] > div { background:#10263b; padding:1rem .9rem 2rem; }
+    section[data-testid="stSidebar"] * { color:#edf5f7; }
+    section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p,
+    section[data-testid="stSidebar"] small { color:#a9c2ce !important; }
     .block-container { max-width:1200px; padding-top:2rem; padding-bottom:3rem; }
-    h1,h2,h3 { color:#172033; letter-spacing:-.02em; }
-    .eyebrow { color:#4267a8; font-size:.72rem; font-weight:800; letter-spacing:.14em; margin-bottom:.6rem; }
+    h1,h2,h3 { color:#14283d; letter-spacing:-.02em; }
+    .eyebrow { color:#0c8c86; font-size:.72rem; font-weight:800; letter-spacing:.14em; margin-bottom:.6rem; }
     .onboarding-icon { font-size:3.5rem; margin-top:7vh; }
-    .hero { background:#ffffff; border:1px solid #d0d9e6; border-radius:20px; padding:2.4rem; margin:1.5rem 0; box-shadow:0 14px 34px rgba(35,48,72,.1); }
+    .hero { background:#ffffff; border:1px solid #d3e0e4; border-radius:20px; padding:2.4rem; margin:1.5rem 0; box-shadow:0 14px 34px rgba(20,53,68,.1); }
     .hero h2 { font-size:2.2rem; margin:.2rem 0; }
-    .hero p { color:#5d6b80; font-size:1.05rem; }
-    .doc-card { background:#f4f6f9; border:1px solid #d1d9e5; border-radius:13px; padding:.75rem; margin:.5rem 0; color:#172033; }
-    .source-card { background:#f4f6f9; border:1px solid #d8dee8; border-radius:12px; padding:.7rem; margin:.4rem 0; }
-    .empty-card { background:#ffffff; border:1px solid #d0d9e6; border-radius:14px; padding:1.1rem; min-height:118px; box-shadow:0 8px 22px rgba(35,48,72,.07); }
-    .empty-card strong { color:#172033; display:block; margin-bottom:.4rem; }
-    .empty-card span { color:#657287; font-size:.9rem; line-height:1.45; }
-    .sidebar-panel { background:#edf2f7; border:1px solid #c0ccda; border-radius:12px; padding:.8rem; margin:.7rem 0; }
-    .sidebar-panel strong { color:#1d3557; display:block; margin-bottom:.35rem; }
-    .sidebar-panel span { color:#52657d; font-size:.84rem; line-height:1.5; }
-    .stButton>button { border-radius:10px; border:1px solid #cbd3df; background:#f8fafc; color:#172033; font-weight:600; }
-    .stButton>button:hover { border-color:#6688bd; color:#254d89; }
-    .stButton>button[kind="primary"] { background:#4267a8; color:white; border:0; }
-    [data-testid="stFileUploader"] { background:#edf2f8 !important; border:2px dashed #8ea6c5 !important; border-radius:16px; padding:.7rem; color:#172033 !important; }
-    [data-testid="stFileUploaderDropzone"] { background:#edf2f8 !important; border:0 !important; }
-    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section { color:#344b68 !important; }
-    [data-testid="stFileUploader"] button { background:#ffffff !important; color:#244b7d !important; border:1px solid #9eb2cb !important; box-shadow:none !important; }
-    [data-testid="stSidebar"] .stCaption, [data-testid="stSidebar"] small { color:#53647b; }
+    .hero p { color:#587080; font-size:1.05rem; }
+    .doc-card { background:#18354d; border:1px solid #2b526d; border-radius:13px; padding:.75rem; margin:.5rem 0; color:#ffffff; }
+    .doc-card small { color:#b7ccd5; }
+    .source-card { background:#f6fafb; border:1px solid #d3e0e4; border-radius:12px; padding:.7rem; margin:.4rem 0; }
+    .empty-card { background:#ffffff; border:1px solid #d3e0e4; border-radius:14px; padding:1.1rem; min-height:118px; box-shadow:0 8px 22px rgba(20,53,68,.07); }
+    .empty-card strong { color:#14283d; display:block; margin-bottom:.4rem; }
+    .empty-card span { color:#587080; font-size:.9rem; line-height:1.45; }
+    .sidebar-panel { background:#18354d; border:1px solid #2b526d; border-radius:12px; padding:.8rem; margin:.7rem 0; }
+    .sidebar-panel strong { color:#ffffff; display:block; margin-bottom:.35rem; }
+    .sidebar-panel span { color:#b7ccd5; font-size:.84rem; line-height:1.5; }
+    .stButton>button { border-radius:10px; border:1px solid #bfd1d7; background:#ffffff; color:#16344a; font-weight:700; }
+    .stButton>button:hover { border-color:#0c8c86; color:#08746f; }
+    .stButton>button[kind="primary"] { background:#0c8c86; color:white; border:0; }
+    section[data-testid="stSidebar"] .stButton>button { background:#e7f4f2; color:#12384a; border:0; }
+    section[data-testid="stSidebar"] .stButton>button:hover { background:#ffffff; color:#08746f; }
+    [data-testid="stFileUploader"] { background:#e8f2f3 !important; border:2px dashed #6baeb0 !important; border-radius:16px; padding:.7rem; color:#14354a !important; }
+    [data-testid="stFileUploaderDropzone"] { background:#e8f2f3 !important; border:0 !important; }
+    [data-testid="stFileUploader"] small, [data-testid="stFileUploader"] span, [data-testid="stFileUploader"] label, [data-testid="stFileUploader"] section { color:#31576a !important; }
+    [data-testid="stFileUploader"] button { background:#ffffff !important; color:#0c716f !important; border:1px solid #8bc1c0 !important; box-shadow:none !important; }
+    section[data-testid="stSidebar"] [data-testid="stExpander"] { background:#18354d; border:1px solid #2b526d; border-radius:12px; }
+    section[data-testid="stSidebar"] [data-testid="stExpander"] svg { fill:#b7ccd5; }
+    [data-testid="stMetric"] { background:#ffffff; border:1px solid #d3e0e4; border-radius:14px; padding:1rem; box-shadow:0 5px 16px rgba(20,53,68,.05); }
+    [data-testid="stMetricLabel"] { color:#587080; }
+    [data-testid="stSidebar"] .stCaption, [data-testid="stSidebar"] small { color:#a9c2ce; }
     [data-testid="stChatMessage"] { border-radius:16px; }
     .ui-version { position:fixed; right:1rem; bottom:.7rem; z-index:9999; background:#244b7d; color:#fff; padding:.35rem .65rem; border-radius:999px; font-size:.72rem; font-weight:700; box-shadow:0 4px 12px rgba(20,35,60,.2); }
     </style>""", unsafe_allow_html=True)
