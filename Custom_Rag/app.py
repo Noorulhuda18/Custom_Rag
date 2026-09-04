@@ -50,17 +50,19 @@ def inject_css():
     [data-testid="stMetric"] { background:#142b3d; border:1px solid #31566b; border-radius:14px; padding:1rem; box-shadow:0 5px 16px rgba(0,0,0,.2); }
     [data-testid="stMetricLabel"] { color:#b6cbd4; }
     [data-testid="stMetricValue"] { color:#f2f8fa; }
-    [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-baseweb="textarea"] > div { background:#142f45; border-color:#42677c; color:#f2f8fa; }
+    [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-baseweb="textarea"] > div { background:#142f45; border-color:#42677c; color:#56b9e8; }
     [data-baseweb="select"] *, [data-baseweb="input"] *, [data-baseweb="textarea"] * { color:#f2f8fa !important; }
-    [data-baseweb="select"] div, [data-baseweb="select"] input { background:#142f45 !important; color:#f2f8fa !important; }
+    section[data-testid="stSidebar"] [data-baseweb="select"] *, section[data-testid="stSidebar"] [data-baseweb="select"] input { color:#56b9e8 !important; }
+    [data-baseweb="select"] div, [data-baseweb="select"] input { background:#142f45 !important; color:#56b9e8 !important; }
     [data-baseweb="select"] svg { fill:#b9d2da !important; }
     [data-baseweb="select"] [role="combobox"] { background:#142f45 !important; color:#f2f8fa !important; }
     [data-baseweb="select"] [role="combobox"] span { color:#f2f8fa !important; }
+    section[data-testid="stSidebar"] [data-baseweb="select"] [role="combobox"] span { color:#56b9e8 !important; }
     [data-baseweb="popover"], [data-baseweb="menu"], [data-baseweb="menu"] ul { background:#142f45 !important; border:1px solid #42677c !important; }
     [role="listbox"] { background:#142f45 !important; }
     [role="option"], [data-baseweb="menu"] li { background:#142f45 !important; color:#e8f1f5 !important; }
     [role="option"] *, [data-baseweb="menu"] li * { color:#e8f1f5 !important; }
-    [role="option"]:hover, [role="option"][aria-selected="true"], [data-baseweb="menu"] li:hover { background:#24536a !important; color:#ffffff !important; }
+    [role="option"]:hover, [role="option"][aria-selected="true"], [data-baseweb="menu"] li:hover { background:#38718a !important; color:#ffffff !important; }
     [role="option"]:hover *, [role="option"][aria-selected="true"] *, [data-baseweb="menu"] li:hover * { color:#ffffff !important; }
     [data-testid="stExpander"] p, [data-testid="stExpander"] label { color:#e8f1f5; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] summary,
@@ -80,12 +82,13 @@ def inject_css():
     .workspace-card .card-icon { color:#087c79; font-size:1.5rem; margin-bottom:.65rem; }
     .workspace-card strong { color:#102d42; display:block; margin-bottom:.35rem; }
     .workspace-card span { color:#38596b; font-size:.88rem; line-height:1.45; }
-    .upload-panel { background:#102b40; border:1px solid #315970; border-radius:18px; padding:1.25rem 1.35rem 1rem; margin:1.5rem 0 1.25rem; box-shadow:0 10px 26px rgba(0,0,0,.2); }
-    .upload-panel h3 { margin:0 0 .25rem; color:#f2f8fa; }
-    .upload-panel p { margin:0 0 .8rem; color:#b6cbd4; }
-    .main-uploader [data-testid="stFileUploader"] { background:#17384d !important; border:2px dashed #3cc1b5 !important; min-height:116px; }
-    .main-uploader [data-testid="stFileUploaderDropzone"] { background:#17384d !important; min-height:105px !important; }
-    .main-uploader [data-testid="stFileUploader"] * { color:#dceff1 !important; }
+    .upload-panel { max-width:760px; margin:2rem auto 0; background:#102b40; border:1px solid #315970; border-radius:16px; padding:.8rem 1rem .7rem; box-shadow:0 10px 26px rgba(0,0,0,.2); }
+    .upload-panel h3 { margin:0 0 .15rem; color:#f2f8fa; font-size:1rem; }
+    .upload-panel p { margin:0 0 .55rem; color:#b6cbd4; font-size:.85rem; }
+    .main-uploader { max-width:760px; margin:0 auto; }
+    .main-uploader [data-testid="stFileUploader"] { background:#17384d !important; border:2px dashed #3cc1b5 !important; min-height:98px; }
+    .main-uploader [data-testid="stFileUploaderDropzone"] { background:#17384d !important; min-height:88px !important; }
+    .main-uploader [data-testid="stFileUploader"] * { color:#ffffff !important; }
     .main-uploader [data-testid="stFileUploader"] button { background:#0c8c86 !important; color:#ffffff !important; }
     .ui-version { position:fixed; right:1rem; bottom:.7rem; z-index:9999; background:#244b7d; color:#fff; padding:.35rem .65rem; border-radius:999px; font-size:.72rem; font-weight:700; box-shadow:0 4px 12px rgba(20,35,60,.2); }
     </style>""", unsafe_allow_html=True)
@@ -201,6 +204,47 @@ def render_empty_state():
                 unsafe_allow_html=True,
             )
 
+
+def render_upload_area():
+    st.markdown(
+        '<div class="upload-panel"><h3>Add documents</h3>'
+        '<p>Upload files to start asking source-backed questions.</p></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown('<div class="main-uploader">', unsafe_allow_html=True)
+    uploaded_files = st.file_uploader(
+        "UPLOAD DOCUMENTS",
+        type=[extension.lstrip(".") for extension in SUPPORTED_EXTENSIONS],
+        accept_multiple_files=True,
+        help="PDF, Word, Excel, PowerPoint, text, web/data files and images.",
+    )
+    st.caption("PDF · DOCX · XLSX · PPTX · TXT · Images")
+    st.markdown('</div>', unsafe_allow_html=True)
+    return uploaded_files
+
+
+def process_uploads(uploaded_files):
+    if not uploaded_files:
+        return
+    signatures = [(file.name, file.size) for file in uploaded_files]
+    if signatures == st.session_state.get("upload_signatures"):
+        return
+    with st.spinner("Processing documents..."):
+        try:
+            documents, vectorstore = process_uploaded_files(
+                uploaded_files,
+                api_key=st.session_state.api_key,
+                chunk_size=st.session_state.settings["chunk_size"],
+                chunk_overlap=st.session_state.settings["chunk_overlap"],
+            )
+            st.session_state.documents = documents
+            st.session_state.vectorstore = vectorstore
+            st.session_state.upload_signatures = signatures
+            st.session_state.messages = []
+            st.success("Documents indexed successfully.")
+        except Exception:
+            st.error("Unable to process one or more files. Check that they are not corrupted, password protected, or unsupported.")
+
 st.set_page_config(page_title=APP_DISPLAY_NAME, page_icon="📚", layout="wide")
 inject_css()
 st.markdown('<div class="ui-version">NexaRAG · refreshed workspace</div>', unsafe_allow_html=True)
@@ -263,42 +307,9 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
-st.markdown(
-    '<div class="upload-panel"><h3>Upload documents to your knowledge base</h3>'
-    '<p>Add one or more files to start asking source-backed questions.</p></div>',
-    unsafe_allow_html=True,
-)
-st.markdown('<div class="main-uploader">', unsafe_allow_html=True)
-uploaded = st.file_uploader(
-    "UPLOAD DOCUMENTS",
-    type=[x.lstrip(".") for x in SUPPORTED_EXTENSIONS],
-    accept_multiple_files=True,
-    help="PDF, Word, Excel, PowerPoint, text, web/data files and images.",
-)
-st.caption("PDF · DOCX · XLSX · PPTX · TXT · Images")
-st.markdown('</div>', unsafe_allow_html=True)
-
-if uploaded:
-    signatures = [(file.name, file.size) for file in uploaded]
-    if signatures != st.session_state.get("upload_signatures"):
-        with st.spinner("Processing documents..."):
-            try:
-                docs, vectorstore = process_uploaded_files(
-                    uploaded,
-                    api_key=st.session_state.api_key,
-                    chunk_size=st.session_state.settings["chunk_size"],
-                    chunk_overlap=st.session_state.settings["chunk_overlap"],
-                )
-                st.session_state.documents = docs
-                st.session_state.vectorstore = vectorstore
-                st.session_state.upload_signatures = signatures
-                st.session_state.messages = []
-                st.success("Documents indexed successfully.")
-            except Exception:
-                st.error("Unable to process one or more files. Check that they are not corrupted, password protected, or unsupported.")
-
 if not st.session_state.documents:
     render_empty_state()
+    process_uploads(render_upload_area())
     st.stop()
 
 docs = st.session_state.documents
@@ -334,6 +345,8 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
         if msg["role"] == "assistant" and msg.get("sources"):
             render_sources(msg["sources"])
+
+process_uploads(render_upload_area())
 
 question = st.chat_input("Ask anything about your documents...")
 question = question or st.session_state.pop("pending_question", None)
