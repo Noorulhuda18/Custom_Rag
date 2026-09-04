@@ -52,18 +52,20 @@ def inject_css():
     [data-testid="stMetricValue"] { color:#f2f8fa; }
     [data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-baseweb="textarea"] > div { background:#142f45; border-color:#42677c; color:#56b9e8; }
     [data-baseweb="select"] *, [data-baseweb="input"] *, [data-baseweb="textarea"] * { color:#f2f8fa !important; }
-    section[data-testid="stSidebar"] [data-baseweb="select"] *, section[data-testid="stSidebar"] [data-baseweb="select"] input { color:#56b9e8 !important; }
-    [data-baseweb="select"] div, [data-baseweb="select"] input { background:#142f45 !important; color:#56b9e8 !important; }
+    section[data-testid="stSidebar"] [data-baseweb="select"] *, section[data-testid="stSidebar"] [data-baseweb="select"] input { color:#0b1724 !important; }
+    section[data-testid="stSidebar"] [data-baseweb="select"] > div,
+    section[data-testid="stSidebar"] [data-baseweb="select"] div,
+    section[data-testid="stSidebar"] [data-baseweb="select"] input { background:#e8f0f3 !important; color:#0b1724 !important; }
     [data-baseweb="select"] svg { fill:#b9d2da !important; }
     [data-baseweb="select"] [role="combobox"] { background:#142f45 !important; color:#f2f8fa !important; }
-    [data-baseweb="select"] [role="combobox"] span { color:#f2f8fa !important; }
-    section[data-testid="stSidebar"] [data-baseweb="select"] [role="combobox"] span { color:#56b9e8 !important; }
-    [data-baseweb="popover"], [data-baseweb="menu"], [data-baseweb="menu"] ul { background:#142f45 !important; border:1px solid #42677c !important; }
-    [role="listbox"] { background:#142f45 !important; }
-    [role="option"], [data-baseweb="menu"] li { background:#142f45 !important; color:#e8f1f5 !important; }
-    [role="option"] *, [data-baseweb="menu"] li * { color:#e8f1f5 !important; }
-    [role="option"]:hover, [role="option"][aria-selected="true"], [data-baseweb="menu"] li:hover { background:#38718a !important; color:#ffffff !important; }
-    [role="option"]:hover *, [role="option"][aria-selected="true"] *, [data-baseweb="menu"] li:hover * { color:#ffffff !important; }
+    [data-baseweb="select"] [role="combobox"] span { color:#0b1724 !important; }
+    section[data-testid="stSidebar"] [data-baseweb="select"] [role="combobox"] span { color:#0b1724 !important; }
+    [data-baseweb="popover"], [data-baseweb="menu"], [data-baseweb="menu"] ul { background:#e8f0f3 !important; border:1px solid #6d9caf !important; }
+    [role="listbox"] { background:#e8f0f3 !important; }
+    [role="option"], [data-baseweb="menu"] li { background:#e8f0f3 !important; color:#0b1724 !important; }
+    [role="option"] *, [data-baseweb="menu"] li * { color:#0b1724 !important; }
+    [role="option"]:hover, [role="option"][aria-selected="true"], [data-baseweb="menu"] li:hover { background:#c8e0e8 !important; color:#0b1724 !important; }
+    [role="option"]:hover *, [role="option"][aria-selected="true"] *, [data-baseweb="menu"] li:hover * { color:#0b1724 !important; }
     [data-testid="stExpander"] p, [data-testid="stExpander"] label { color:#e8f1f5; }
     section[data-testid="stSidebar"] [data-testid="stExpander"] summary,
     section[data-testid="stSidebar"] [data-testid="stExpander"] summary:hover,
@@ -86,9 +88,11 @@ def inject_css():
     .upload-panel h3 { margin:0 0 .15rem; color:#f2f8fa; font-size:1rem; }
     .upload-panel p { margin:0 0 .55rem; color:#b6cbd4; font-size:.85rem; }
     .main-uploader { max-width:760px; margin:0 auto; }
-    .main-uploader [data-testid="stFileUploader"] { background:#17384d !important; border:2px dashed #3cc1b5 !important; min-height:98px; }
+    .main-uploader [data-testid="stFileUploader"] { background:#17384d !important; border:2px dashed #3cc1b5 !important; border-radius:14px; min-height:98px; padding:.55rem !important; }
     .main-uploader [data-testid="stFileUploaderDropzone"] { background:#17384d !important; min-height:88px !important; }
-    .main-uploader [data-testid="stFileUploader"] * { color:#ffffff !important; }
+    .main-uploader [data-testid="stFileUploader"] *, .main-uploader [data-testid="stFileUploader"] p,
+    .main-uploader [data-testid="stFileUploader"] span, .main-uploader [data-testid="stFileUploader"] small,
+    .main-uploader [data-testid="stFileUploader"] label { color:#ffffff !important; opacity:1 !important; }
     .main-uploader [data-testid="stFileUploader"] button { background:#0c8c86 !important; color:#ffffff !important; }
     .ui-version { position:fixed; right:1rem; bottom:.7rem; z-index:9999; background:#244b7d; color:#fff; padding:.35rem .65rem; border-radius:999px; font-size:.72rem; font-weight:700; box-shadow:0 4px 12px rgba(20,35,60,.2); }
     </style>""", unsafe_allow_html=True)
